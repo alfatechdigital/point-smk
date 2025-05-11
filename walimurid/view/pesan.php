@@ -2,18 +2,24 @@
   <div class="col-md-4">
     <div class="box box-solid">
       <div class="box-header with-border">
-      	<h3 class="box-title">Guru</h3>
-      	<div class="box-tools">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="glyphicon glyphicon-minus"></i></button>
-        </div>
+      <h3 class="box-title">Guru</h3>
+      <div class="box-tools">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="glyphicon glyphicon-minus"></i></button>
+      </div>
       </div>
       <div class="box-body no-padding">
-        <ul class="nav nav-pills nav-stacked">
-      <?php $relc=mysqli_query($con,"SELECT * FROM relasichat where c_orangtua='$_SESSION[c_orangtua]' ");while($hrel=mysqli_fetch_array($relc)){ $or=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where c_guru='$hrel[c_guru]' ")); ?>
-                <li <?php if(isset($_GET['q'])){if($_GET['q']==$hrel['c_guru']){echo 'class="active"';} }?> ><a href="<?php echo $basewa; ?>pesan/<?php echo $hrel['c_guru']; ?>/_"><?php echo $or['nama']; ?><i class="fa fa-inbox"></i> 
-                  <span class="label label-success pull-right"></span></a></li>
-        <?php } ?>
-        </ul>
+      <ul class="nav nav-pills nav-stacked">
+      <?php 
+      $guruQuery = mysqli_query($con, "SELECT * FROM guru");
+      while($guru = mysqli_fetch_array($guruQuery)) { ?>
+          <li <?php if(isset($_GET['q']) && $_GET['q'] == $guru['c_guru']) { echo 'class="active"'; } ?>>
+            <a href="<?php echo $basewa; ?>pesan/<?php echo $guru['c_guru']; ?>/_">
+            <?php echo $guru['nama']; ?>
+            <i class="fa fa-inbox"></i>
+            </a>
+          </li>
+      <?php } ?>
+      </ul>
       </div>
     </div>
   </div>

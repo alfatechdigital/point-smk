@@ -76,9 +76,9 @@
         <div class="navbar-custom-menu navbar">
             <ul class="nav navbar-nav navbar-left">
             <li><a href="<?php echo $basewa; ?>"><i class="glyphicon glyphicon-list"></i> Pelanggaran Siswa</a></li>
-            <li><a href="<?php echo $basewa; ?>guru"><i class="glyphicon glyphicon-user"></i> Guru</a></li>
+            <!-- <li><a href="<?php echo $basewa; ?>guru"><i class="glyphicon glyphicon-user"></i> Guru</a></li> -->
             <li><a href="<?php echo $basewa; ?>pesan"><i class="glyphicon glyphicon-comment"></i> Percakapan <span id="pesanbaru"></span></a></li>
-            <!-- <li><a href="<?php echo $basewa; ?>point"><i class="glyphicon glyphicon-education"></i> Point Pelanggaran</a></li> Create a new file for this menu: /view/point.php -->
+            <!-- <li><a href="<?php echo $basewa; ?>point"><i class="glyphicon glyphicon-tasks"></i> Point Pelanggaran</a></li> -->
             <li class="user user-menu"><a href="<?php echo $base.'php/'.md5('logout'); ?>"><img src="<?php echo $base; ?>php/img/ortu.png" class="user-image" alt="User Image"><span>&nbsp;<?php echo $or['nama']; ?> <i class="glyphicon glyphicon-log-out"></i></span></a></li>
             </ul>
         </div>

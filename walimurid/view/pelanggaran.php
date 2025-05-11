@@ -101,7 +101,15 @@
       </div>
       <div class="box-body">
         <table class="table table-hover">
-          <thead></thead>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Pelanggaran</th>
+              <th>Guru</th>
+              <th>Tanggal</th>
+              <th>Bobot</th>
+            </tr>
+          </thead>
           <tbody>
 <?php $smk=mysqli_query($con,"SELECT * FROM pelanggaran where c_siswa='$or[c_siswa]' order by at desc ");$vr=1;while($akh=mysqli_fetch_array($smk)){
 $gur=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where c_guru='$akh[c_guru]' "));
@@ -112,6 +120,7 @@ $ben=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM benpel where c_benpel='
               <td><?php echo $ben['benpel']; ?></td>
               <td><?php echo $gur['nama']; ?></td>
               <td><?php echo date("d/m/Y", strtotime($akh['at'])); ?></td>
+              <td><?php echo $ben['bobot']; ?></td>
             </tr>
 <?php $vr++; } ?>
           </tbody>
