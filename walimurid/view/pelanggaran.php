@@ -35,21 +35,25 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
-         Ananda <?php echo $siswa['nama']; ?> 
-         <br>
-         melakukan pelanggaran sebanyak <?php echo $totalPelanggaran; ?>x (<?php echo $totalBobot; ?> poin)
-                <br>
-                <p>dengan rincian sebagai berikut:</p>
-            <ol>
-            <?php 
-            $smk=mysqli_query($con,"SELECT * FROM pelanggaran where c_siswa='$or[c_siswa]' order by at desc ");
-            while($akh=mysqli_fetch_array($smk)){
-            $ben=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM benpel where c_benpel='$akh[c_benpel]' "));
-            ?>
-            <li><?php echo $ben['benpel']; ?> - Poin: <?php echo $ben['bobot']; ?></li>
-            <?php } ?>
-            </ol>
-            </div>
+                <?php if ($totalPelanggaran > 0) { ?>
+                  Ananda <?php echo $siswa['nama']; ?> 
+                  <br>
+                  melakukan pelanggaran sebanyak <?php echo $totalPelanggaran; ?>x (<?php echo $totalBobot; ?> poin)
+                  <br>
+                  <p>dengan rincian sebagai berikut:</p>
+                  <ol>
+                  <?php 
+                  $smk=mysqli_query($con,"SELECT * FROM pelanggaran where c_siswa='$or[c_siswa]' order by at desc ");
+                  while($akh=mysqli_fetch_array($smk)){
+                    $ben=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM benpel where c_benpel='$akh[c_benpel]' "));
+                  ?>
+                    <li><?php echo $ben['benpel']; ?> - Poin: <?php echo $ben['bobot']; ?></li>
+                  <?php } ?>
+                  </ol>
+                <?php } else { ?>
+                  Ananda <?php echo $siswa['nama']; ?> tidak melakukan pelanggaran.
+                <?php } ?>
+                </div>
             </div>
             </div>
             <!-- Accordion 2 -->
