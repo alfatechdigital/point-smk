@@ -228,24 +228,27 @@ oncontextmenu="return false">
       </form>
 <?php //navigasi aktif
 if(empty($_GET['smkakh'])){
-  $aak='class="active"';$bak='';$cak='';$dak='';$eak='';
+  $aak='class="active"';$bak='';$cak='';$dak='';$eak='';$fak='';
 }
 else{
   $act=($_GET['smkakh']);
   if($act=='inputpelanggaran' or $act=='nextinput'){
-    $aak='';$bak='class="active"';$cak='';$dak='';$eak='';
+    $aak='';$bak='class="active"';$cak='';$dak='';$eak='';$fak='';
+  }
+  else if($act=='pointpelanggaran'){
+    $aak='';$bak='';$cak='class="active"';$dak='';$eak='';$fak='';
   }
   else if($act=='sanksi'){
-    $aak='';$bak='';$cak='class="active"';$dak='';$eak='';
+    $aak='';$bak='';$cak='';$dak='class="active"';$eak='';$fak='';
   }
   else if($act=='pesan'){
-    $aak='';$bak='';$cak='';$dak='class="active"';$eak='';
+    $aak='';$bak='';$cak='';$dak='';$eak='class="active"';$fak='';
   }
   else if($act=='history'){
-    $aak='';$bak='';$cak='';$dak='';$eak='class="active"';
+    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='class="active"';
   }
   else{
-    $aak='';$bak='';$cak='';$dak='';$eak='';
+    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='';
   }
 }
 //akhir navigasi aktif
@@ -264,11 +267,16 @@ else{
           </a>
         </li>
         <li <?php echo $cak; ?>>
+          <a href="<?php echo $basegu; ?>pointpelanggaran">
+            <i class="glyphicon glyphicon-tasks"></i> <span>Point Pelanggaran</span>
+          </a>
+        </li>
+        <li <?php echo $dak; ?>>
           <a href="<?php echo $basegu; ?>sanksi">
             <i class="glyphicon glyphicon-list-alt"></i> <span>Sanksi Pelanggaran</span>
           </a>
         </li>
-        <li <?php echo $dak; ?>>
+        <li <?php echo $eak; ?>>
           <a href="<?php echo $basegu; ?>pesan">
             <i class="glyphicon glyphicon-comment"></i> <span>Pesan</span><span id="pesanbaru"></span>
           </a>
@@ -278,7 +286,7 @@ else{
             <i class="glyphicon glyphicon-user"></i> <span>Wali Murid</span>
           </a>
         </li>
-        <li>
+        <li <?php echo $fak; ?>>
           <a href="<?php echo $basegu; ?>history">
             <i class="glyphicon glyphicon-calendar"></i> <span>History</span>
           </a>
@@ -317,6 +325,9 @@ else{
     }
     else if($act=='history'){
       require 'view/history.php';
+    }
+    else if($act == 'pointpelanggaran'){
+    require 'view/pointpelanggaran.php';
     }
     else if($act=='search'){
       require 'view/search.php';

@@ -10,5 +10,8 @@ class action{
     $_SESSION['pesan']='chat';
     header('location:../../guru');
   }
+  function arahkanKePoint($c_orangtua){
+    header('location:../../view/walimurid/'.$c_orangtua.'/point.php');
+  }
 }
 ?>
