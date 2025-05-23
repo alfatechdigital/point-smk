@@ -61,7 +61,7 @@ function random($length){
   $string='';
   for($i=1;$i<=$length;$i++){
     $pos=rand(0,strlen($data)-1);
-    $string.=$data{$pos};
+    $string.=$data[$pos];
   }
   return $string;
 }

@@ -129,23 +129,79 @@ $(function () {
   Top 4 Pelanggaran Siswa
 </div>
 <div class="row">
-<?php $pps=mysqli_query($con,"SELECT c_siswa, sum(bobot) as jb from pelanggaran group by c_siswa order by jb desc limit 4 "); while($hpps=mysqli_fetch_array($pps)){ $sis=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM siswa where c_siswa='$hpps[c_siswa]' ")); $kel=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM kelas where c_kelas='$sis[c_kelas]' ")); ?>
+<?php
+// Ambil data pelanggaran siswa beserta detail siswa dan kelas
+$weights = [1]; // Bobot 100% untuk total bobot pelanggaran (jika hanya 1 kriteria)
+$kriteria = ['jb']; // 'jb' = jumlah bobot pelanggaran
+
+// Ambil semua data pelanggaran siswa untuk normalisasi
+$all_siswa = [];
+$all_values = [];
+$q = mysqli_query($con, "SELECT c_siswa, SUM(bobot) as jb FROM pelanggaran GROUP BY c_siswa");
+
+// Cek apakah query berhasil dijalankan
+if($q){
+  while($row = mysqli_fetch_assoc($q)) {
+    $all_siswa[$row['c_siswa']] = $row;
+    foreach($kriteria as $idx => $k) {
+      $all_values[$k][] = $row[$k];
+    }
+  }
+} else {
+  // Tampilkan pesan error jika query gagal
+  echo "<div style='color:red;'>Query error: " . mysqli_error($con) . "</div>";
+}
+
+// Normalisasi data (karena cost, gunakan nilai minimum dibagi nilai siswa)
+$normal = [];
+foreach($all_siswa as $cid => $data) {
+  foreach($kriteria as $idx => $k) {
+    $min = min($all_values[$k]);
+    $normal[$cid][$k] = $min > 0 ? $min / ($data[$k] > 0 ? $data[$k] : 1) : 0;
+  }
+}
+
+// Hitung skor SAW untuk setiap siswa
+$saw_score = [];
+foreach($normal as $cid => $data) {
+  $score = 0;
+  foreach($kriteria as $idx => $k) {
+    $score += $weights[$idx] * $data[$k];
+  }
+  $saw_score[$cid] = $score;
+}
+
+// Urutkan semua siswa berdasarkan skor SAW
+arsort($saw_score);
+
+// Tampilkan semua peringkat siswa berdasarkan SAW
+$rank = 1;
+foreach($saw_score as $cid => $score) {
+  $sis = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM siswa WHERE c_siswa='$cid' "));
+  $kel = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas WHERE c_kelas='{$sis['c_kelas']}' "));
+  $hpps = mysqli_fetch_array(mysqli_query($con, "SELECT SUM(bobot) as jb FROM pelanggaran WHERE c_siswa='$cid' "));
+?>
   <div class="col-md-3">
-    <div class="box box-primary">
-      <div class="box-body box-profile">
-        <h4 class="profile-username text-center" style="font-size: 16px;"><?php echo $sis['nama']; ?></h4>
-        <p class="text-muted text-center"><?php echo $kel['kelas']; ?></p>
-        <ul class="list-group list-group-unbordered">
-          <li class="list-group-item">
-          <?php if($hpps['jb']>20){ $style='style="font-size: 28px;margin-top: -10px;color:#d9534f;"'; }else{ $style='style="font-size: 28px;margin-top: -10px;"'; } ?>
-            <b>Poin Pelanggaran<a class="pull-right" <?php echo $style.'>'.$hpps['jb']; ?></a></b>
-          </li>
-        </ul>
-        <a href="<?php echo $basead; ?>lihatpelanggaransiswa/<?php echo $hpps['c_siswa']; ?>" class="btn btn-primary btn-block"><b>Lihat Pelanggaran</b></a>
-      </div>
+  <div class="box box-primary">
+    <div class="box-body box-profile">
+    <h4 class="profile-username text-center" style="font-size: 16px;">
+      <?php echo $rank . ". " . $sis['nama']; ?>
+    </h4>
+    <p class="text-muted text-center"><?php echo $kel['kelas']; ?></p>
+    <ul class="list-group list-group-unbordered">
+      <li class="list-group-item">
+      <?php if($hpps['jb']>20){ $style='style="font-size: 28px;margin-top: -10px;color:#d9534f;"'; }else{ $style='style="font-size: 28px;margin-top: -10px;"'; } ?>
+      <b>Poin Pelanggaran<a class="pull-right" <?php echo $style.'>'.$hpps['jb']; ?></a></b>
+      </li>
+    </ul>
+    <a href="<?php echo $basead; ?>lihatpelanggaransiswa/<?php echo $cid; ?>" class="btn btn-primary btn-block"><b>Lihat Pelanggaran</b></a>
     </div>
   </div>
-<?php } ?>
+  </div>
+<?php
+  $rank++;
+}
+?>
 </div>
 <div class="row">
   <div class="col-md-4">

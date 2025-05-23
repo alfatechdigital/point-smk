@@ -2,7 +2,7 @@
 require '../../php/config.php'; require '../../php/function.php';
 session_start();
 if(empty($_SESSION['c_guru'])){header('location:'.$base.'');}
-require_once("../../master/dompdf/dompdf_config.inc.php"); require 'cssprint.php';
+require_once("../../master/dompdf/autoload.inc.php"); require 'cssprint.php';
 $gur=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where c_guru='$_GET[guru]' "));
 $content.='
 <title>Pelanggaran Diinputkan Guru ('.$gur['nama'].')</title>
@@ -50,7 +50,9 @@ $content.='
 	Dicetak Pada '.date('d-m-Y H:i').'
 </div>
 </div>';
-$dompdf = new DOMPDF();
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
 $dompdf->set_paper('A4','Landscape');
 $dompdf->load_html($content);
 $dompdf->render();

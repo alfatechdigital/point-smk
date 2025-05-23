@@ -35,7 +35,9 @@ $content.='
 	Dicetak Pada '.date('d-m-Y H:i').'
 </div>
 </div>';
-$dompdf = new DOMPDF();
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
 $dompdf->set_paper('A4','Portrait');
 $dompdf->load_html($content);
 $dompdf->render();

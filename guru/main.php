@@ -228,27 +228,30 @@ oncontextmenu="return false">
       </form>
 <?php //navigasi aktif
 if(empty($_GET['smkakh'])){
-  $aak='class="active"';$bak='';$cak='';$dak='';$eak='';$fak='';
+  $aak='class="active"';$bak='';$cak='';$dak='';$eak='';$fak='';$gak='';
 }
 else{
   $act=($_GET['smkakh']);
   if($act=='inputpelanggaran' or $act=='nextinput'){
-    $aak='';$bak='class="active"';$cak='';$dak='';$eak='';$fak='';
+    $aak='';$bak='class="active"';$cak='';$dak='';$eak='';$fak='';$gak='';
   }
   else if($act=='pointpelanggaran'){
-    $aak='';$bak='';$cak='class="active"';$dak='';$eak='';$fak='';
+    $aak='';$bak='';$cak='class="active"';$dak='';$eak='';$fak='';$gak='';
   }
   else if($act=='sanksi'){
-    $aak='';$bak='';$cak='';$dak='class="active"';$eak='';$fak='';
+    $aak='';$bak='';$cak='';$dak='class="active"';$eak='';$fak='';$gak='';
   }
   else if($act=='pesan'){
-    $aak='';$bak='';$cak='';$dak='';$eak='class="active"';$fak='';
+    $aak='';$bak='';$cak='';$dak='';$eak='class="active"';$fak='';$gak='';
   }
   else if($act=='history'){
-    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='class="active"';
+    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='class="active"';$gak='';
+  }
+  else if($act=='ranking'){
+    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='';$gak='class="active"';
   }
   else{
-    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='';
+    $aak='';$bak='';$cak='';$dak='';$eak='';$fak='';$gak='';
   }
 }
 //akhir navigasi aktif
@@ -291,6 +294,11 @@ else{
             <i class="glyphicon glyphicon-calendar"></i> <span>History</span>
           </a>
         </li>
+        <!-- <li <?php echo $gak; ?>>
+          <a href="<?php echo $basegu; ?>ranking">
+            <i class="glyphicon glyphicon-stats"></i> <span>Ranking Pelanggaran</span>
+          </a>
+        </li> -->
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -327,7 +335,10 @@ else{
       require 'view/history.php';
     }
     else if($act == 'pointpelanggaran'){
-    require 'view/pointpelanggaran.php';
+      require 'view/pointpelanggaran.php';
+    }
+    else if($act=='ranking'){
+      require 'view/ranking.php';
     }
     else if($act=='search'){
       require 'view/search.php';

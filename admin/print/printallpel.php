@@ -2,7 +2,7 @@
 require '../../php/config.php'; require '../../php/function.php';
 session_start();
 if(empty($_SESSION['c_admin'])){header('location:'.$base.'');}
-require_once("../../master/dompdf/dompdf_config.inc.php"); require 'cssprint.php';
+require_once("../../master/dompdf/autoload.inc.php"); require 'cssprint.php';
 $content.='
 <title>Seluruh Pelanggaran Siswa</title>
 <div style="page-break-after: always;">
@@ -37,7 +37,9 @@ $content.='
 	Dicetak Pada '.date('d-m-Y H:i').'
 </div>
 </div>';
-$dompdf = new DOMPDF();
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
 $dompdf->set_paper('A4','Landscape');
 $dompdf->load_html($content);
 $dompdf->render();
